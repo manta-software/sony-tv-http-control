@@ -1,0 +1,19 @@
+{
+  "name": "sony-tv-http-control",
+  "version": "0.0.1",
+  "description": "Controls a Sony Android powered TV over HTTP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//manta-software/sony-tv-http-control"
+  },
+  "author": "Cuong Luu",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "request": "^2.79.0"
+  }
+}
