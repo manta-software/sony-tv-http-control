@@ -1,0 +1,75 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Sony TV",
+		"_postman_id": "ca32ac04-249b-d0b9-072e-fc691e1d57f9",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Power On",
+			"request": {
+				"url": "http://192.168.0.17/sony/IRCC",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"description": ""
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"urn:schemas-sony-com:service:IRCC:1#X_SendIRCC\"",
+						"description": ""
+					},
+					{
+						"key": "X-Auth-PSK",
+						"value": "6368",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\"?>\n<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\n  <s:Body>\n    <u:X_SendIRCC xmlns:u=\"urn:schemas-sony-com:service:IRCC:1\">\n      <IRCCCode>AAAAAQAAAAEAAAAuAw==</IRCCCode>\n    </u:X_SendIRCC>\n  </s:Body>\n</s:Envelope>"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://192.168.0.17/sony/system",
+			"request": {
+				"url": "http://192.168.0.17/sony/system",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":20,\"method\":\"getRemoteControllerInfo\",\"version\":\"1.0\",\"params\":[]}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://192.168.0.17/sony/accessControl",
+			"request": {
+				"url": "http://192.168.0.17/sony/accessControl",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":13,\"method\":\"actRegister\",\"version\":\"1.0\",\"params\":[{\"clientid\":\"iRule:1\",\"nickname\":\"iRule\"},[{\"clientid\":\"iRule:1\",\"value\":\"yes\",\"nickname\":\"iRule\",\"function\":\"WOL\"}]]}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -1,8 +1,8 @@
-var SonyTvHttpControl = require('./index');
+const SonyTvHttpControl = require('./index');
 
-var sonyTvHttpControl = new SonyTvHttpControl('192.168.0.17', 6368);
+var sonyTvHttpControl = new SonyTvHttpControl('192.168.0.17');
 
-sonyTvHttpControl.powerOn()
+sonyTvHttpControl.requestControl('cuong', '5186')
     .then((response) => {
         console.log('Success', response);
         process.exit();
