@@ -1,14 +1,15 @@
-const fs = require('fs');
-const request  = require('request');
-const sonyTvCommands  = require('./lib/sony-tv-commands');
-const payload = fs.readFileSync('./lib/sony-ircc-payload.xml').toString('utf8');
+import fs from 'fs';
+import request from 'request';
+import sonyTvCommands from './sony-tv-commands';
+
+const payload = fs.readFileSync('resources/sony-ircc-payload.xml').toString('utf8');
 
 class SonyTvHttpControl {
 	constructor(host) {
 		this.host = host;
 
 		this.baseRequest = request.defaults({
-			baseUrl: 'http://' + host + '/sony',
+			baseUrl: `http://${host}/sony`,
 			method: 'post',
 			headers: {
 				'Content-Type': 'text/xml',
@@ -17,11 +18,16 @@ class SonyTvHttpControl {
 		});
 	}
 
-
-	sendCommand(command) {
-		const commandPayload = payload.replace('{{command}}', command);
+	sendCommand(commandName) {
+		const commandCode = sonyTvCommands[commandName];
 
 		return new Promise((resolve, reject) => {
+			if (!commandCode) {
+				reject(`unknown command: ${commandName}`)
+			}
+
+			const commandPayload = payload.replace('{{commandCode}}', commandCode);
+
 			var opts = {
 				body: commandPayload,
 				uri: '/IRCC'
@@ -55,11 +61,11 @@ class SonyTvHttpControl {
 	}
 
 	powerOn() {
-		return this.sendCommand(sonyTvCommands['WakeUp']);
+		return this.sendCommand('WakeUp');
 	}
 
 	powerOff() {
-		return this.sendCommand(sonyTvCommands['PowerOff']);
+		return this.sendCommand('PowerOff');
 	}
 }
 
