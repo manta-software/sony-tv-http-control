@@ -15,8 +15,11 @@
   "author": "Cuong Luu",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "fs": "0.0.1-security",
-    "request": "^2.79.0"
+    "node-ssdp": "^3.2.1",
+    "request": "^2.79.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
