@@ -6,5 +6,5 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 export {
-	expect
+  expect,
 };

@@ -4,9 +4,11 @@
       "env",
       {
         "targets": {
-          "browsers": ["> 5%"]
+          "browsers": [
+            "> 5%"
+          ]
         },
-        "useBuiltIns" : true
+        "useBuiltIns": true
       }
     ]
   ]
