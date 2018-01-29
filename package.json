@@ -1,34 +1,42 @@
 {
   "name": "sony-tv-http-control",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Controls a Sony Android powered TV over HTTP",
   "main": "dist/sony-tv-http-control.js",
   "scripts": {
-    "test": "mocha test/**/*.js --require babel-register",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "build": "rm -rf dist/* && babel src -d dist --source-maps",
-    "eslint": "eslint src/**/* cli/**/*",
+    "eslint": "eslint src/**/* cli/**/* test/**/*",
     "prepublish": "npm run eslint && npm test && npm run build",
     "cli": "npx babel-node cli/index.js"
   },
+  "jest": {
+    "testRegex": "/test/unit/(.*)\\.js[x]?",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/utils/units.js",
+      "!src/utils/sony-tv-request-payload.js",
+      "!src/sony-tv-commands.js"
+    ]
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com//manta-software/sony-tv-http-control"
+    "url": "https://github.com/manta-software/sony-tv-http-control"
   },
   "author": "Cuong Luu",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.0",
     "request": "^2.79.0",
     "node-ssdp": "^3.2.1",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-core": "^6.25.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.24.1",
-    "chai": "^4.1.1",
-    "chai-as-promised": "^7.1.1",
     "chalk": "^2.1.0",
     "clear": "0.0.1",
     "clui": "^0.3.6",
@@ -38,8 +46,9 @@
     "figlet": "^1.2.0",
     "fs": "0.0.1-security",
     "inquirer": "^3.2.3",
+    "jest": "^22.1.4",
     "minimist": "^1.2.0",
-    "mocha": "^3.5.0",
-    "nock": "^9.0.14"
+    "nock": "^9.0.14",
+    "regenerator-runtime": "^0.11.1"
   }
 }

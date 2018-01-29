@@ -112,5 +112,5 @@ module.exports = {
   'ActionMenu': 'AAAAAgAAAMQAAABLAw==',
   'Help': 'AAAAAgAAAMQAAABNAw==',
   'TvSatellite': 'AAAAAgAAAMQAAABOAw==',
-  'WirelessSubwoofer': 'AAAAAgAAAMQAAAB+Aw==',
+  'WirelessSubwoofer': 'AAAAAgAAAMQAAAB+Aw=='
 };

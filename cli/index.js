@@ -2,14 +2,31 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import clear from 'clear';
 import inquirer from 'inquirer';
-import {SonyTvHttpControl, discover} from '../src/sony-tv-http-control';
+import fs from 'fs';
+import {
+  requestAccessControl,
+  sendAuthorisation,
+  sendSystemCommand,
+  sendCommand
+} from '../src/sony-tv-http-control';
+import {discover} from '../src/sony-tv-discoverer';
 
 clear();
-console.log(
-    chalk.yellow(
-        figlet.textSync('Sony TV Http Control', {horizontalLayout: 'full'}),
-    ),
-);
+console.log(chalk.yellow(figlet.textSync('Sony TV Http Control', {horizontalLayout: 'full'})));
+
+function saveDevice({deviceName, host, cookie}) {
+  const device = {
+    name: deviceName,
+    host: host,
+    cookie: cookie
+  };
+
+  fs.writeFileSync(`./device-${deviceName}.json`, JSON.stringify(device));
+}
+
+function getSavedDevices() {
+  return fs.readdirSync('.').filter((file) => file.startsWith('device-') && file.endsWith('.json'));
+}
 
 async function getAction() {
   const {action} = await inquirer.prompt(
@@ -20,10 +37,10 @@ async function getAction() {
           message: 'What would you like to do?:',
           choices: [
             {name: 'Locate & Pair with TV', value: 'discover'},
-            {name: 'Connect', value: 'connect'},
-          ],
-        },
-      ],
+            {name: 'Connect', value: 'connect'}
+          ]
+        }
+      ]
   );
 
   return action;
@@ -41,8 +58,8 @@ async function askForDeviceName() {
         } else {
           return 'Please a name for your TV';
         }
-      },
-    },
+      }
+    }
   ]);
 
   return deviceName;
@@ -53,8 +70,8 @@ async function askForDevicePairingPin() {
     {
       name: 'devicePin',
       type: 'input',
-      message: 'Enter the pin as shown on your TV',
-    },
+      message: 'Enter the pin as shown on your TV'
+    }
   ]);
 
   return devicePin;
@@ -67,16 +84,27 @@ async function confirm(message) {
       type: 'list',
       message: message,
       choices: [{name: 'yes', value: true}, {name: 'no', value: false}],
-      default: true,
-    },
+      default: true
+    }
   ]);
 
   return confirmed;
 }
 
-// async function askForCommand(commands) {
-//
-// }
+async function askForCommand(commands) {
+  const {command} = await inquirer.prompt(
+      [
+        {
+          type: 'list',
+          name: 'command',
+          message: 'Enter a command',
+          choices: commands
+        }
+      ],
+  );
+
+  return command;
+}
 
 async function onDiscovered(deviceName, device) {
   const confirmed = await confirm(`Would you like to pair with ${device.host}`);
@@ -89,18 +117,20 @@ async function onDiscovered(deviceName, device) {
 }
 
 async function pair(deviceName, device) {
-  const sonyTvHttpControl = new SonyTvHttpControl(
-      `${device.host}:${device.port}`);
+  const host = `${device.host}:${device.port}`;
 
-  sonyTvHttpControl.requestControl(deviceName);
+  await requestAccessControl(host, deviceName);
 
   const devicePin = await askForDevicePairingPin();
 
-  return sonyTvHttpControl.requestControl(deviceName, devicePin).then(() => {
-    console.log('Successfully paired with your TV');
-  }).catch((error) => {
-    console.log('Failed to pair with your TV', error);
-  });
+  return sendAuthorisation(host, deviceName, devicePin)
+    .then((response) => {
+      saveDevice({deviceName, host, cookie: response});
+      console.log('Successfully paired with your TV');
+    })
+    .catch((error) => {
+      console.log('Failed to pair with your TV', error);
+    });
 }
 
 async function findTv() {
@@ -111,27 +141,31 @@ async function findTv() {
   });
 }
 
-async function connect(device) {
-  const sonyTvHttpControl = new SonyTvHttpControl(
-      `${device.host}:${device.port}`);
-  const {result} = await sonyTvHttpControl.sendSystemCommand();
+async function selectDevice() {
+  const {selectedDevice} = await inquirer.prompt([
+    {
+      name: 'selectedDevice',
+      type: 'list',
+      message: 'Select a device to connect to',
+      choices: getSavedDevices().map((device) => ({name: device, value: device}))
+    }
+  ]);
 
-  console.log('result', result);
-  return result;
+  return JSON.parse(fs.readFileSync(`./${selectedDevice}`));
 }
 
 async function connectTv() {
-  return discover(async (device) => {
-    const confirmed = await confirm(
-        `Would you like to connect to ${device.friendlyName}`);
+  const deviceInfo = await selectDevice();
 
-    if (confirmed) {
-      return await connect(device);
-    }
+  const host = deviceInfo.host;
+  const {result} = await sendSystemCommand(host);
+  const command = await askForCommand(result[1]);
+  const response = await sendCommand(deviceInfo.host, command, deviceInfo.cookie);
 
-    throw new Error(`ignoring ${device.host}`);
-  });
+  return response;
 }
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 getAction().then((action) => {
   switch (action) {
