@@ -2,7 +2,7 @@
   "name": "sony-tv-http-control",
   "version": "1.0.0",
   "description": "Controls a Sony Android powered TV over HTTP",
-  "main": "dist/sony-tv-http-control.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
