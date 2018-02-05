@@ -35,6 +35,12 @@ sonyTvHttpControl.sendSystemCommand(host);
 sonyTvHttpControl.sendCommand(host, command, cookie);
 ```
 
+# CLI
+Use the CLI to test the library.
+You must ensure your device is on the same network as your Sony TV.
+
+:warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.
+
 # API Reference
 ### discover
 Uses SSDP (Simple Service Discovery Protocol) to locate Sony TVs on your network
