@@ -46,7 +46,9 @@ git clone git@github.com:/manta-software/sony-tv-http-control
 npm install
 npm run cli
 ```
-* Use `Locate & Pair with TV ` to look for a Sony TV on your network (using SSDP).  :warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.
+* Use `Locate & Pair with TV ` to look for a Sony TV on your network (using SSDP).
+    * Your TV should be on as it will display the authorisation code you will need to enter in the CLI
+    * :warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.
 * Once you have successfully paired, you can use `Connect` to connect to your TV and send commands.
 
 
