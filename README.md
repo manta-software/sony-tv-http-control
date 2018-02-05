@@ -39,7 +39,15 @@ sonyTvHttpControl.sendCommand(host, command, cookie);
 Use the CLI to test the library.
 You must ensure your device is on the same network as your Sony TV.
 
-:warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.
+
+To launch the CLI
+```bash
+npm install
+npm run cli
+```
+* Use `Locate & Pair with TV ` to look for a Sony TV on your network (using SSDP).  :warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.
+* Once you have successfully paired, you can use `Connect` to connect to your TV and send commands.
+
 
 # API Reference
 ### discover
