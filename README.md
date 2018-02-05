@@ -40,8 +40,9 @@ Use the CLI to test the library.
 You must ensure your device is on the same network as your Sony TV.
 
 
-To launch the CLI
+To launch the CLI you need to clone this repo and then run.
 ```bash
+git clone git@github.com:/manta-software/sony-tv-http-control
 npm install
 npm run cli
 ```
