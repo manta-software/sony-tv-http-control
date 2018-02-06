@@ -38,6 +38,7 @@ sonyTvHttpControl.sendCommand(host, command, cookie);
 # CLI
 Use the CLI to test the library.
 You must ensure your device is on the same network as your Sony TV.
+Requires [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) - which is normally bundled with NPM v5
 
 
 To launch the CLI you need to clone this repo and then run.
@@ -49,6 +50,7 @@ npm run cli
 ```
 * Use `Locate & Pair with TV ` to look for a Sony TV on your network (using SSDP).
     * Your TV should be on as it will display the authorisation code you will need to enter in the CLI
+    * When prompted for a name, enter any string, this will be stored on your TV when authorised
     * :warning: The CLI will store the authorisation cookie once it has been authorised with your TV.  This is necessary in order to connect to it again and send the commands.  Is is stored as a JSON file and prefixed with `device-{deviceName}`.
 * Once you have successfully paired, you can use `Connect` to connect to your TV and send commands.
 
