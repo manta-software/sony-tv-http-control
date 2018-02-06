@@ -105,13 +105,10 @@ describe('Dicover', () => {
       it('will not parse the xml when there is an error fetching the device information', () => {
         const onRequestGetCallback = request.get.mock.calls[0][1];
         const ERROR = true;
-        const RESPONSE = {
-          statusCode: 'dont care'
-        };
         const BODY = '<xml></xml>';
 
         global.console = {warn: jest.fn()};
-        onRequestGetCallback(ERROR, RESPONSE, BODY);
+        onRequestGetCallback(ERROR, undefined, BODY);
 
         expect(parseXml).not.toHaveBeenCalled();
         expect(console.warn).toHaveBeenCalledTimes(1);

@@ -15,6 +15,7 @@
     "testRegex": "/test/unit/(.*)\\.js[x]?",
     "collectCoverageFrom": [
       "src/**/*.js",
+      "!src/index.js",
       "!src/utils/units.js",
       "!src/utils/sony-tv-request-payload.js",
       "!src/sony-tv-commands.js"

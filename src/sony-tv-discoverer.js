@@ -5,7 +5,6 @@ import request from 'request';
 import {minutes} from './utils/units';
 
 const SSDP_SERVICE_TYPE = 'urn:schemas-sony-com:service:IRCC:1';
-// const SSDP_SERVICE_TYPE = 'ssdp:all';
 const SSDP_DISCOVER_DEFAULT_TIMEOUT = minutes(1);
 
 export function discover(processDevice, timeout = SSDP_DISCOVER_DEFAULT_TIMEOUT) {
@@ -48,7 +47,9 @@ export function discover(processDevice, timeout = SSDP_DISCOVER_DEFAULT_TIMEOUT)
             }
           });
         } else {
-          console.warn(`Error for device ${data.address}, statusCode: ${response.statusCode}, error: ${error}, body: ${body}`);
+          const statusCode = response ? response.statusCode : 'N/A';
+
+          console.warn(`Error for device ${data.address}, statusCode: ${statusCode}, error: ${error}, body: ${body}`);
         }
       });
     }
